@@ -2,7 +2,7 @@ import { routes } from "../routes.js";
 import { extractQueryParams } from "../utils/extract-query-params.js";
 import { Database } from "../database.js";
 
-//cria uma instância (uma class) do banco de dados
+//cria uma instância (class) do banco de dados
 const database = new Database();
 
 export function routeHandler(request, response) {

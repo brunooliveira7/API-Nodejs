@@ -1,5 +1,18 @@
+import fs from "fs/promises";
+//caminho do arquivo db.json
+const DATABASE_PATH = new URL("db.json", import.meta.url);
+
 export class Database {
   database = {};
+
+  constructor() {
+    this.persist();
+  }
+
+  persist() {
+    //transforma o objeto database em JSON e salva no arquivo db.json
+    fs.writeFile(DATABASE_PATH, JSON.stringify(this.database));
+  }
 
   //método/função para inserir dados no banco de dados
   insert(table, data) {
@@ -11,7 +24,7 @@ export class Database {
       this.database[table] = [data];
     }
   }
-  
+
   //selecionar dados do banco de dados
   select(table) {
     return this.database[table];
