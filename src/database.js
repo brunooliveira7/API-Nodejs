@@ -3,36 +3,37 @@ import fs from "fs/promises";
 const DATABASE_PATH = new URL("db.json", import.meta.url);
 
 export class Database {
-  database = {};
+  //banco de dados privado - #database
+  #database = {};
 
   constructor() {
     fs.readFile(DATABASE_PATH, "utf8")
       .then((data) => {
-        this.database = JSON.parse(data);
+        this.#database = JSON.parse(data);
       })
-      .catch(() => this.persist());
+      .catch(() => this.#persist());
   }
 
-  persist() {
-    //transforma o objeto database em JSON e salva no arquivo db.json
-    fs.writeFile(DATABASE_PATH, JSON.stringify(this.database));
+  #persist() {
+    //transforma o objeto database em JSON, e salva no db.json - persistente
+    fs.writeFile(DATABASE_PATH, JSON.stringify(this.#database));
   }
 
   //método/função para inserir dados no banco de dados
   insert(table, data) {
     //verifica se a tabela existe no banco de dados
-    if (Array.isArray(this.database[table])) {
-      this.database[table].push(data);
+    if (Array.isArray(this.#database[table])) {
+      this.#database[table].push(data);
     } else {
       //se a tabela não existir, cria a tabela e insere os dados
-      this.database[table] = [data];
+      this.#database[table] = [data];
     }
 
-    this.persist();
+    this.#persist();
   }
 
   //selecionar dados do banco de dados
   select(table) {
-    return this.database[table];
+    return this.#database[table] ?? [];
   }
 }
