@@ -1,5 +1,9 @@
 import { routes } from "../routes.js";
 import { extractQueryParams } from "../utils/extract-query-params.js";
+import { Database } from "../database.js";
+
+//cria uma instância (uma class) do banco de dados
+const database = new Database();
 
 export function routeHandler(request, response) {
   const route = routes.find((route) => {
@@ -14,7 +18,8 @@ export function routeHandler(request, response) {
     request.params = params;
     request.query = query ? extractQueryParams(query) : {};
 
-    return route.controller(request, response);
+    //retorna para o controller - rota, o request, response e banco de dados
+    return route.controller({ request, response, database });
   }
 
   return response.writeHead(404).end("Rota não encontrada!");
