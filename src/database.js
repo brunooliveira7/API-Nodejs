@@ -23,6 +23,8 @@ export class Database {
       //se a tabela não existir, cria a tabela e insere os dados
       this.database[table] = [data];
     }
+
+    this.persist();
   }
 
   //selecionar dados do banco de dados
