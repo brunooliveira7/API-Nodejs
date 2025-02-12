@@ -8,7 +8,7 @@ export async function jsonBodyHandler(request, response) {
   }
 
   try {
-    //concatenar os chunk e converter em string. Converte a string em JSON.
+    //concatenar os chunk e converter em string e converte a string em JSON.
     request.body = JSON.parse(Buffer.concat(buffers).toString());
   } catch (error) {
     request.body = null;
